@@ -13,7 +13,11 @@ function Toggle({children}) {
 }
 
 const useToggleContext = () => {
-  return React.useContext(ToggleContext)
+  const context = React.useContext(ToggleContext)
+  if (context) {
+    return context
+  }
+  throw new Error("You can't use useToggle hook outside Toggle component")
 }
 
 function ToggleOn({children}) {
@@ -31,19 +35,21 @@ function ToggleButton(props) {
   return <Switch on={on} onClick={toggle} {...props} />
 }
 
-function App() {
-  return (
-    <div>
-      <Toggle>
-        <ToggleOn>The button is on</ToggleOn>
-        <ToggleOff>The button is off</ToggleOff>
-        <div>
-          <ToggleButton />
-        </div>
-      </Toggle>
-    </div>
-  )
-}
+// function App() {
+//   return (
+//     <div>
+//       <Toggle>
+//         <ToggleOn>The button is on</ToggleOn>
+//         <ToggleOff>The button is off</ToggleOff>
+//         <div>
+//           <ToggleButton />
+//         </div>
+//       </Toggle>
+//     </div>
+//   )
+// }
+
+const App = () => <ToggleButton />
 
 export default App
 
