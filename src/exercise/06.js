@@ -59,7 +59,6 @@ function useControlledReadOnlyWarning(
   initialValueProp,
   onChangeProp,
 ) {
-  // const valueIsControlled = controlledValue != null
   React.useEffect(() => {
     warning(
       !(!hasOnChange && valueIsControlled && !readOnly),
@@ -90,17 +89,21 @@ function useToggle({
   const onIsControlled = controlledOn != null
   const on = onIsControlled ? controlledOn : state.on
 
-  useControlledSwitchWarning(controlledOn, 'on', 'useToggle')
-  useControlledReadOnlyWarning(
-    onIsControlled,
-    'on',
-    'useToggle',
-    Boolean(onChange),
-    readOnly,
-    'readOnly',
-    'initialOn',
-    'onChange',
-  )
+  if (process.env.NODE_ENV !== 'production') {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    useControlledSwitchWarning(controlledOn, 'on', 'useToggle')
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    useControlledReadOnlyWarning(
+      onIsControlled,
+      'on',
+      'useToggle',
+      Boolean(onChange),
+      readOnly,
+      'readOnly',
+      'initialOn',
+      'onChange',
+    )
+  }
 
   function dispatchWithOnChange(action) {
     if (!onIsControlled) {
